@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
  * @Description 车型
  */
 @EntityScan
-public class Car {
+public class CarType {
     /**
      * 车型id
      */
