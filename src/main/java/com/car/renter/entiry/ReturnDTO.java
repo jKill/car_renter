@@ -11,10 +11,6 @@ public class ReturnDTO {
      */
     private Integer typeId;
 
-    /**
-     * 数量
-     */
-    private Integer num;
 
     public Integer getTypeId() {
         return typeId;
@@ -24,11 +20,4 @@ public class ReturnDTO {
         this.typeId = typeId;
     }
 
-    public Integer getNum() {
-        return num;
-    }
-
-    public void setNum(Integer num) {
-        this.num = num;
-    }
 }

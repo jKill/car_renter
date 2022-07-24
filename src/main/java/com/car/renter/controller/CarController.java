@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * @Author huangjunqiao
  * @Date 2022/07/22 17:08
@@ -25,18 +27,18 @@ public class CarController {
     CarService carService;
 
     @PostMapping("/query/all")
-    public CarDetailVO queryAll(@RequestBody QueryDTO queryDto) {
+    public List<CarDetailVO> queryAll(@RequestBody QueryDTO queryDto) {
         return carService.queryAll(queryDto);
     }
 
     @PostMapping("/rent")
-    public void rent(@RequestBody RentDTO rentDto) {
-        carService.rent(rentDto);
+    public String rent(@RequestBody RentDTO rentDto) {
+        return carService.rent(rentDto);
     }
 
     @PostMapping("/return")
-    public void returnCar(@RequestBody ReturnDTO returnDto) {
-        carService.returnCar(returnDto);
+    public String returnCar(@RequestBody ReturnDTO returnDto) {
+        return carService.returnCar(returnDto);
     }
 
 

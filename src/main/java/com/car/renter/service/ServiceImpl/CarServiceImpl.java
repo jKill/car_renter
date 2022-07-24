@@ -7,10 +7,11 @@ import com.car.renter.entiry.QueryDTO;
 import com.car.renter.entiry.RentDTO;
 import com.car.renter.entiry.ReturnDTO;
 import com.car.renter.service.CarService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Author huangjunqiao
@@ -20,23 +21,39 @@ import java.util.Date;
 @Service("carService")
 public class CarServiceImpl implements CarService {
 
-
-    @Autowired
-    private CarMapper carMapper;
-
     @Override
-    public void rent(RentDTO rentDto) {
-        carMapper.deductByDays(rentDto.getTypeId(), rentDto.getNum(), rentDto.getFromDate(), rentDto.getDuration());
+    public String rent(RentDTO rentDto) {
+        int typeId = rentDto.getTypeId();
+        int stock = Config.CARS.get(typeId);
+        if (stock == 0) {
+            return "此车型暂无可租车辆";
+        }
+        Config.CARS.put(typeId, stock - 1);
+        return "租车成功";
     }
 
     @Override
-    public void returnCar(ReturnDTO returnDto) {
-        Date returnDate = new Date();
-        carMapper.addByDays(returnDto.getTypeId(), returnDto.getNum(), returnDate, Config.MAX_PRE);
+    public String returnCar(ReturnDTO returnDto) {
+        int typeId = returnDto.getTypeId();
+        if (Config.CARS.get(typeId) == Config.LIMITS.get(typeId)) {
+            return "暂无出借记录，无需归还";
+        }
+        Config.CARS.put(typeId, Config.CARS.get(typeId) + 1);
+        return "归还成功";
     }
 
     @Override
-    public CarDetailVO queryAll(QueryDTO queryDto) {
-        return carMapper.queryAll(queryDto.getDate());
+    public List<CarDetailVO> queryAll(QueryDTO queryDto) {
+        List<CarDetailVO> res = new ArrayList<>();
+        for (Map.Entry<Integer, Integer> entry : Config.CARS.entrySet()) {
+            CarDetailVO vo = new CarDetailVO();
+            int typeId = entry.getKey(), cnt = entry.getValue();
+
+            vo.setTypeId(typeId);
+            vo.setStock(cnt);
+            vo.setTypeName(Config.ID_NAME.get(typeId));
+            res.add(vo);
+        }
+        return res;
     }
 }
