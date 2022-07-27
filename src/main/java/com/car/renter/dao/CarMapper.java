@@ -2,8 +2,9 @@ package com.car.renter.dao;
 
 import com.car.renter.entiry.CarDetailVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
-import java.util.Date;
+import java.util.List;
 
 /**
  * @Author huangjunqiao
@@ -12,9 +13,9 @@ import java.util.Date;
  */
 @Mapper
 public interface CarMapper {
-    CarDetailVO queryAll(Date date);
+    List<CarDetailVO> queryAll();
 
-    int deductByDays(Integer typeId, int num, Date fromDate, int duration);
+    int rentCar(@Param("typeId") int typeId);
 
-    int addByDays(Integer typeId, int num, Date fromDate, int duration);
+    int returnCar(@Param("typeId") int typeId);
 }

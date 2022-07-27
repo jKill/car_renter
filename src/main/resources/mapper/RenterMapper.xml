@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.car.renter.dao.RenterMapper">
-  <!--<resultMap id="BaseResultMap" type="com.car.renter.entity.Renter">-->
-    <!--<id column="id" jdbcType="INTEGER" property="id" />-->
-    <!--<result column="user_id" jdbcType="INTEGER" property="userId" />-->
-    <!--<result column="money" jdbcType="INTEGER" property="money" />-->
-  <!--</resultMap>-->
+<mapper namespace="com.car.renter.dao.CarMapper">
+
+  <select id="queryAll" resultType="com.car.renter.entiry.CarDetailVO">
+      select id as typeId, car_model as typeName, cur_stock as stock from t_car;
+  </select>
+
+  <update id="rentCar" parameterType="com.car.renter.entiry.RentDTO">
+    update t_car set cur_stock = cur_stock - 1
+    where id = #{typeId, jdbcType=INTEGER} and cur_stock &gt; 0;
+  </update>
+
+  <update id="returnCar" parameterType="com.car.renter.entiry.RentDTO">
+      update t_car set cur_stock = cur_stock + 1
+      where id = #{typeId, jdbcType=INTEGER} and cur_stock &lt; stock_limit;
+  </update>
 
 </mapper>
