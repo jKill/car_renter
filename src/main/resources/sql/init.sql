@@ -13,7 +13,7 @@
 
  Date: 07/27/2022 16:16:43 PM
 */
-
+CREATE DATABASE renter_db;
 SET NAMES utf8;
 SET FOREIGN_KEY_CHECKS = 0;
 
